@@ -209,7 +209,7 @@ public class Main extends Application implements Runnable{
     @Override
     public void run() {
         while (this.snake.isAlive()) {
-            System.out.println(2);
+            System.out.println(1);
             this.snake.move(this.speed);
         }
 
