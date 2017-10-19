@@ -33,7 +33,7 @@ public class MenuAbout {
     public MenuAbout(Menu menu) {
         BackgroundImage backgroundImage = new BackgroundImage(new Image("/Game/GraphicalResources/BackgroundResources/ClearBackground.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 
-        this.label = new Label("Author: Castravet Radu-Mihai        Main Designer: Dumitru Ispas    Version: Snakus Aplha Test 1.1 Donations: Qiwi +37369934224     Have Fun!");
+        this.label = new Label("Author: Castravet Radu-Mihai        Main Designer: Dumitru Ispas    Version: Snakus Aplha Test 1.2 Donations: Qiwi +37369934224     Have Fun!");
         this.label.setStyle("-fx-text-fill: #73b671;");
         this.label.setTextAlignment(TextAlignment.CENTER);
         this.label.setPrefWidth(665);

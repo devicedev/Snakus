@@ -68,6 +68,9 @@ public class MenuPause {
             case "Vampire":
                 this.media = new Media(getClass().getResource("/Game/GraphicalResources/VideoResources/GiphVN.mp4").toURI().toString());
                 break;
+            case "Pacman":
+                this.media = new Media(getClass().getResource("/Game/GraphicalResources/VideoResources/GiphPN.mp4").toURI().toString());
+                break;
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();

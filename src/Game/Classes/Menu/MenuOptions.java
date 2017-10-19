@@ -68,6 +68,9 @@ public class MenuOptions {
                     case "Vampire":
                         main.loadVampire();
                         break;
+                    case "Pacman":
+                        main.loadPac();
+                        break;
                 }
             });
             this.secondPane.getChildren().clear();

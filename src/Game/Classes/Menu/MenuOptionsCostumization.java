@@ -35,7 +35,7 @@ public class MenuOptionsCostumization {
     private ComboBox skinChoice;
 
 
-    private ObservableList<String> skinList = FXCollections.observableArrayList("Default","Batman","Vampire");
+    private ObservableList<String> skinList = FXCollections.observableArrayList("Default","Batman","Vampire","Pacman");
 
 
     public MenuOptionsCostumization(String skinName){
@@ -64,6 +64,9 @@ public class MenuOptionsCostumization {
             case "Vampire":
                 this.loadMedia("GiphV");
                 break;
+            case "Pacman":
+                this.loadMedia("GiphP");
+                break;
         }
         this.skinChoice.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             @Override public ListCell<String> call(ListView<String> param) {
@@ -87,6 +90,9 @@ public class MenuOptionsCostumization {
                     break;
                 case "Vampire":
                     this.loadMedia("GiphV");
+                    break;
+                case "Pacman":
+                    this.loadMedia("GiphP");
                     break;
             }
         });

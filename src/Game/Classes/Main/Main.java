@@ -61,10 +61,9 @@ public class Main extends Application implements Runnable{
         this.mainStage = primaryStage;
         this.mainStage.setTitle("Snakus");
         this.mainStage.getIcons().add(new Image(getClass().getResourceAsStream("/Game/GraphicalResources/OutResources/SnakeIcon.png")));
-        //calculeaza pozitita medie
         this.mainStage.setX(500);
         this.mainStage.setY(0);
-        this.mainStage.setResizable(false);
+        this.mainStage.setResizable(true);
         this.WIDTH = 700;
         this.HEIGHT = 620;
         this.menu = new Menu(this);
@@ -208,8 +207,9 @@ public class Main extends Application implements Runnable{
 
     @Override
     public void run() {
+        int i = 0;
         while (this.snake.isAlive()) {
-            System.out.println("HEELOO");
+            System.out.println("Moving "+i++);
             this.snake.move(this.speed);
         }
 
@@ -293,6 +293,76 @@ public class Main extends Application implements Runnable{
         }
 
     }
+    private void pushPacMan(){
+        String s1 = "/Game/SnakeSkins/PacMan/Head/HeadUp.png";
+        String s2 = "/Game/SnakeSkins/PacMan/Head/HeadDown.png";
+        String s3 = "/Game/SnakeSkins/PacMan/Head/HeadRight.png";
+        String s4 = "/Game/SnakeSkins/PacMan/Head/HeadLeft.png";
+        HeadSkin headSkin = new HeadSkin(s1,s2,s3,s4);
+
+        String s11 = "/Game/SnakeSkins/PacMan/Body/Body.png";
+        String s22 = "/Game/SnakeSkins/PacMan/Body/Body.png";
+        String s33 = "/Game/SnakeSkins/PacMan/Body/Body.png";
+        String s44 = "/Game/SnakeSkins/PacMan/Body/Body.png";
+        CurveSkin curveSkin = new CurveSkin(s11,s22,s33,s44);
+
+        String s111 = "/Game/SnakeSkins/PacMan/Body/Body.png";
+        String s222 = "/Game/SnakeSkins/PacMan/Body/Body.png";
+        StraightSkin straightSkin = new StraightSkin(s111,s222);
+
+        String s1111 = "/Game/SnakeSkins/PacMan/Body/Body.png";
+        String s2222 = "/Game/SnakeSkins/PacMan/Body/Body.png";
+        String s3333 = "/Game/SnakeSkins/PacMan/Body/Body.png";
+        String s4444 = "/Game/SnakeSkins/PacMan/Body/Body.png";
+        TailSkin tailSkin = new TailSkin(s1111,s2222,s3333,s4444);
+
+        String s6 = "/Game/SnakeSkins/PacMan/Apple/AppleB.png";
+        String s7 = "/Game/SnakeSkins/PacMan/Apple/AppleM.png";
+        String s8 = "/Game/SnakeSkins/PacMan/Apple/AppleN.png";
+        String s9 = "/Game/SnakeSkins/PacMan/Apple/AppleO.png";
+        String s10 = "/Game/SnakeSkins/PacMan/Apple/AppleP.png";
+        AppleSkin appleSkin = new AppleSkin(s6,s7,s8,s9,s10);
+
+        BackgroundSkin backgroundSkin = new BackgroundSkin("/Game/SnakeSkins/PacMan/Background/Background.png");
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream("PacMan.ser");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            ArrayList<ArrayList<String>> root = new ArrayList<>();
+            root.add(headSkin.getImagePaths());
+            root.add(curveSkin.getImagePaths());
+            root.add(straightSkin.getImagePaths());
+            root.add(tailSkin.getImagePaths());
+            root.add(appleSkin.getImagePaths());
+            root.add(backgroundSkin.getImagePaths());
+            objectOutputStream.writeObject(root);
+            objectOutputStream.flush();
+            fileOutputStream.flush();
+            objectOutputStream.close();
+            fileOutputStream.close();
+        }catch (Exception e){
+            System.out.println("ex la pushPacMan");
+        }
+
+    }
+    public void loadPac(){
+        ArrayList<ArrayList<String>> root;
+        try{
+            InputStream inputStream = Main.class.getResourceAsStream("/Game/SnakeSkins/PacMan/PacMan.ser");
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            root = (ArrayList<ArrayList<String>>) objectInputStream.readObject();
+            HeadSkin headSkin = new HeadSkin(root.get(0).get(0),root.get(0).get(1),root.get(0).get(2),root.get(0).get(3));
+            CurveSkin curveSkin = new CurveSkin(root.get(1).get(0),root.get(1).get(1),root.get(1).get(2),root.get(1).get(3));
+            StraightSkin straightSkin = new StraightSkin(root.get(2).get(0),root.get(2).get(1));
+            TailSkin tailSkin = new TailSkin(root.get(3).get(0),root.get(3).get(1),root.get(3).get(2),root.get(3).get(3));
+            AppleSkin appleSkin = new AppleSkin(root.get(4).get(0),root.get(4).get(1),root.get(4).get(2),root.get(4).get(3),root.get(4).get(4));
+            BackgroundSkin backgroundSkin = new BackgroundSkin(root.get(5).get(0));
+            currentSkin = new SnakeSkin(headSkin,curveSkin,straightSkin,tailSkin,appleSkin,backgroundSkin, "Pacman");
+            objectInputStream.close();
+            inputStream.close();
+        }catch (Exception e){
+            System.out.println("Ex la loadPac");
+        }
+    }
 
     private  void loadConfig() {
         try {
@@ -311,12 +381,19 @@ public class Main extends Application implements Runnable{
             String difficultyLevel = (String) cofigurations.get(2);
             Integer highScore = (Integer) cofigurations.get(3);
             if (skin != null) {
-                if (skin.equals("Batman"))
-                    loadBat();
-                else if (skin.equals("Default"))
-                    loadDefault();
-                else if (skin.equals("Vampire"))
-                    loadVampire();
+                switch (skin){
+                    case "Batman":
+                        loadBat();
+                        break;
+                    case "Default":
+                        loadDefault();
+                        break;
+                    case "Vampire":
+                        break;
+                    case "Pacman":
+                        loadPac();
+                        break;
+                }
             } else
                 loadDefault();
             if (difficultyLevel != null)
